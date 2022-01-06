@@ -12,12 +12,13 @@ class WPCLI
     protected string $wordpressPath;
     protected string $fileName;
     protected string $tgzName;
+    protected string $path;
 
 
     function __construct(string $path)
     {
         $this->wordpressPath = $path;
-       
+        $this->path = dirname(__DIR__);       
     }
 
     public function exec(string $command)
@@ -30,11 +31,11 @@ class WPCLI
         $this->dbExport();
         $this->fileExport();
         $this->mkDir();
-        shell_exec('mv *.tgz tmp/'. $this->fileName.'/');
+        shell_exec("mv *.tgz {$this->path}/tmp/". $this->fileName.'/');
     }
 
     public function mkDir(){
-        shell_exec('mkdir tmp/' . $this->fileName);
+        shell_exec("mkdir {$this->path}/tmp/" . $this->fileName);
     }
 
     public function dbExport(){
