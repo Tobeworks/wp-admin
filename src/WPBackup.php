@@ -25,8 +25,9 @@ class WPBackup extends Command
     {
 
         $this->wp = new WPCLI($input->getArgument('path'));
-        $this->wp->exec('core check-update');
-        $output->writeln($this->wp->exec('core check-update'));
+        $this->wp->dbExport();
+        // $this->wp->exec('core check-update');
+       // $output->writeln($this->wp->exec('core check-update'));
         return Command::SUCCESS;
     }
 }
