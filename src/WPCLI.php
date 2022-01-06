@@ -14,6 +14,7 @@ class WPCLI
     protected string $tgzName;
     protected string $path;
 
+    const WP = '/usr/local/bin/wp';
 
     function __construct(string $path)
     {
@@ -23,7 +24,7 @@ class WPCLI
 
     public function exec(string $command)
     {
-        $exec = WP . " " . $command . ' --path=' . $this->wordpressPath . ' --allow-root';
+        $exec = self::WP . " " . $command . ' --path=' . $this->wordpressPath . ' --allow-root';
         return shell_exec($exec);
     }
 
@@ -53,5 +54,11 @@ class WPCLI
 
     public function fileExport(){
         shell_exec('tar --exclude='. $this->tgzName .' -vczf '. $this->fileName.'_files.tgz '. $this->wordpressPath);
+    }
+
+    public function checkUpdate(){
+        $json = $this->exec('core check-update --format=json');
+        $res = json_decode($json);
+       return $res[0]->version;
     }
 }

@@ -11,10 +11,7 @@ use App\WPCLI as WPCLI;
 
 class WPBackup extends Command
 {
-
-    const WP = '/usr/local/bin/wp';
-
-    protected static $defaultName = 'wp:backup';
+    protected static $defaultName = 'backup';
 
     protected function configure(): void
     {
@@ -26,7 +23,6 @@ class WPBackup extends Command
 
         $this->wp = new WPCLI($input->getArgument('path'));
         $this->wp->export();
-        // $this->wp->exec('core check-update');
         $output->writeln('Done!');
         return Command::SUCCESS;
     }
