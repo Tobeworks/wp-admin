@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use App\WPBackup as Backup;
+use App\WPUpdate as Update;
+use App\WPTransfer as Transfer;
+
+define('WP', '/usr/local/bin/wp');
+
+$backup = new Backup();
+$update = new Update();
+$transfer = new Transfer();
+
+$application = new Application();
+$application->add($backup);
+$application->add($update);
+$application->add($transfer);
+$application->run();
