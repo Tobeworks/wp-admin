@@ -33,16 +33,22 @@ class WPCLI
         $this->dbExport();
         $this->fileExport();
         $this->mkDir();
-        shell_exec("mv *.tgz {$this->path}/tmp/" . $this->fileName . '/');
+        shell_exec("mv *.tgz {$this->path}/tmp/" . $this->getSiteURL() . '-' . $this->fileName . '/');
     }
 
     public function mkDir()
     {
-        shell_exec("mkdir {$this->path}/tmp/" . $this->fileName);
+        shell_exec("mkdir -p {$this->path}/tmp/" . $this->getSiteURL() . '-' . $this->fileName);
+    }
+
+    public function getSiteURL()
+    {
+        return  preg_replace('#http://|https://#', '', $this->exec('option get siteurl'));
     }
 
     public function dbExport()
     {
+
         $res = $this->exec('db export --porcelain');
         $expl = explode('.', $res);
 
@@ -54,9 +60,11 @@ class WPCLI
         shell_exec('rm -rf ' . $res);
     }
 
-    public function fileExport(): string
+    public function fileExport()
     {
-        return  shell_exec('tar --exclude=' . $this->tgzName . ' -vczf ' . $this->fileName . '_files.tgz ' . $this->wordpressPath);
+        $siteUrl = $this->getSiteURL();
+
+        return  shell_exec('tar -vczf ' . date('Y-m-d', time()) . '_files.tgz ' . $this->wordpressPath);
     }
 
     public function checkUpdate()
@@ -85,6 +93,4 @@ class WPCLI
     {
         return $this->exec('theme update --all');
     }
-
-
 }
