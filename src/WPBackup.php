@@ -16,6 +16,7 @@ class WPBackup extends Command
     protected function configure(): void
     {
         $this->addArgument('path', InputArgument::REQUIRED, 'The path is required');
+        $this->setDescription('Backup a Wordpress Installation and gzip it');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

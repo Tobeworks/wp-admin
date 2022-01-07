@@ -16,5 +16,5 @@ $transfer = new Transfer();
 $application = new Application();
 $application->add($backup);
 $application->add($update);
-$application->add($transfer);
+//$application->add($transfer);
 $application->run();

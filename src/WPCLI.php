@@ -19,7 +19,7 @@ class WPCLI
     function __construct(string $path)
     {
         $this->wordpressPath = $path;
-        $this->path = dirname(__DIR__);       
+        $this->path = dirname(__DIR__);
     }
 
     public function exec(string $command)
@@ -28,37 +28,63 @@ class WPCLI
         return shell_exec($exec);
     }
 
-    public function export(){
+    public function export()
+    {
         $this->dbExport();
         $this->fileExport();
         $this->mkDir();
-        shell_exec("mv *.tgz {$this->path}/tmp/". $this->fileName.'/');
+        shell_exec("mv *.tgz {$this->path}/tmp/" . $this->fileName . '/');
     }
 
-    public function mkDir(){
+    public function mkDir()
+    {
         shell_exec("mkdir {$this->path}/tmp/" . $this->fileName);
     }
 
-    public function dbExport(){
+    public function dbExport()
+    {
         $res = $this->exec('db export --porcelain');
-        $expl = explode('.',$res);
+        $expl = explode('.', $res);
 
         $this->fileName = $expl[0];
-        $this->tgzName = $this->fileName.'.tgz';
-        
+        $this->tgzName = $this->fileName . '.tgz';
 
-        shell_exec('tar -czf '. $this->tgzName .' '.$res );
-        shell_exec('rm -rf ' . $res );
-        
+
+        shell_exec('tar -czf ' . $this->tgzName . ' ' . $res);
+        shell_exec('rm -rf ' . $res);
     }
 
-    public function fileExport(){
-        shell_exec('tar --exclude='. $this->tgzName .' -vczf '. $this->fileName.'_files.tgz '. $this->wordpressPath);
+    public function fileExport(): string
+    {
+        return  shell_exec('tar --exclude=' . $this->tgzName . ' -vczf ' . $this->fileName . '_files.tgz ' . $this->wordpressPath);
     }
 
-    public function checkUpdate(){
+    public function checkUpdate()
+    {
         $json = $this->exec('core check-update --format=json');
         $res = json_decode($json);
-       return $res[0]->version;
+        if (isset($res[0])) {
+            return $res[0]->version;
+        } else {
+            return false;
+        }
     }
+
+
+    public function CoreUpdate()
+    {
+        return $this->exec('core update');
+    }
+
+    public function PluginsUpdate()
+    {
+        return $this->exec('plugin update --all');
+    }
+
+    public function ThemesUpdate()
+    {
+        return $this->exec('theme update --all');
+    }
+
+
 }

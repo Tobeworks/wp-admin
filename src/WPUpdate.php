@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Symfony\Component\Console\Command\Command;
@@ -16,17 +17,23 @@ class WPUpdate extends Command
     protected function configure(): void
     {
         $this->addArgument('path', InputArgument::REQUIRED, 'The path is required');
+        $this->setDescription('Core-Update');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->wp = new WPCLI($input->getArgument('path'));
         $res = $this->wp->checkUpdate();
-        if($res != ''){
-            $output->writeln('Update needed: Going further with update to '. $res);
-        }else{
-            $output->writeln('No Update needed. Aborting');
+        if ($res != '') {
+            $output->writeln('Update needed: Going further with update to ' . $res);
+            $output->writeln($this->wp->CoreUpdate());
+        } else {
+            $output->writeln('No Core Update needed.');
         }
+        $output->writeln('Plugin Updates start');
+        $output->writeln($this->wp->PluginsUpdate());
+        $output->writeln($this->wp->ThemesUpdate());
+        $output->writeln('-End-');
         return Command::SUCCESS;
     }
 }
