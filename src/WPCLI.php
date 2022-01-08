@@ -5,6 +5,7 @@ namespace App;
 use Symfony\Component\Console\Helper\Dumper;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
+use App\Config as Config;
 
 class WPCLI
 {
@@ -13,13 +14,21 @@ class WPCLI
     protected string $fileName;
     protected string $tgzName;
     protected string $path;
+    public $config;
 
     const WP = '/usr/local/bin/wp';
 
     function __construct(string $path)
     {
+        $this->getConfig();
         $this->wordpressPath = $path;
         $this->path = dirname(__DIR__);
+    }
+
+    public function getConfig()
+    {
+        $config = new Config();
+        $this->config = $config->getConfig();
     }
 
     public function exec(string $command)
@@ -30,20 +39,25 @@ class WPCLI
 
     public function export()
     {
+        chdir($this->config['safedir']);
+        $this->mkDir();
         $this->dbExport();
         $this->fileExport();
-        $this->mkDir();
-        shell_exec("mv *.tgz {$this->path}/tmp/" . $this->getSiteURL() . '-' . $this->fileName . '/');
+        // mv Domain to taget SafeDir (for transfer)
+       // shell_exec("mv {$this->config['tmpdir']}/* {$this->config['safedir']}/");
+        //shell_exec("mv *.tgz {$this->config['safedir']}/" . $this->getSiteURL() . '-' . $this->fileName . '/');
     }
 
     public function mkDir()
     {
-        shell_exec("mkdir -p {$this->path}/tmp/" . $this->getSiteURL() . '-' . $this->fileName);
+        $this->domainDir = "{$this->config['safedir']}/" . $this->getSiteURL();
+        shell_exec("mkdir -p {$this->domainDir}");
     }
 
     public function getSiteURL()
     {
-        return  preg_replace('#http://|https://#', '', $this->exec('option get siteurl'));
+        $siteUrl = preg_replace('#http://|https://#', '', $this->exec('option get siteurl'));
+        return $siteUrl;
     }
 
     public function dbExport()
@@ -55,16 +69,17 @@ class WPCLI
         $this->fileName = $expl[0];
         $this->tgzName = $this->fileName . '.tgz';
 
-
         shell_exec('tar -czf ' . $this->tgzName . ' ' . $res);
         shell_exec('rm -rf ' . $res);
+        shell_exec("mv {$this->tgzName} {$this->domainDir}");
     }
 
     public function fileExport()
     {
-        $siteUrl = $this->getSiteURL();
-
-        return  shell_exec('tar -vczf ' . date('Y-m-d', time()) . '_files.tgz ' . $this->wordpressPath);
+        //$siteUrl = $this->getSiteURL();
+        $filename = date('Y-m-d-H-i', time()) . '_files.tgz';
+        shell_exec("tar -vczf {$filename} --exclude={$filename} -C {$this->wordpressPath} .");
+        shell_exec("mv {$filename} {$this->domainDir}");
     }
 
     public function checkUpdate()
