@@ -5,6 +5,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Symfony\Component\Console\Application;
 use App\WPBackup as Backup;
 use App\WPUpdate as Update;
+use App\WPBackupSource as Source;
 use App\WPTransfer as Transfer;
 
 define('WP', '/usr/local/bin/wp');
@@ -12,9 +13,10 @@ define('WP', '/usr/local/bin/wp');
 $backup = new Backup();
 $update = new Update();
 $transfer = new Transfer();
+$source = new Source();
 
 $application = new Application();
 $application->add($backup);
 $application->add($update);
-//$application->add($transfer);
+$application->add($source);
 $application->run();

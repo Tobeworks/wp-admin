@@ -6,6 +6,7 @@ use Symfony\Component\Console\Helper\Dumper;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 use App\Config as Config;
+use App\Options as Options;
 
 class WPCLI
 {
@@ -43,9 +44,6 @@ class WPCLI
         $this->mkDir();
         $this->dbExport();
         $this->fileExport();
-        // mv Domain to taget SafeDir (for transfer)
-       // shell_exec("mv {$this->config['tmpdir']}/* {$this->config['safedir']}/");
-        //shell_exec("mv *.tgz {$this->config['safedir']}/" . $this->getSiteURL() . '-' . $this->fileName . '/');
     }
 
     public function mkDir()
@@ -76,7 +74,6 @@ class WPCLI
 
     public function fileExport()
     {
-        //$siteUrl = $this->getSiteURL();
         $filename = date('Y-m-d-H-i', time()) . '_files.tgz';
         shell_exec("tar -vczf {$filename} --exclude={$filename} -C {$this->wordpressPath} .");
         shell_exec("mv {$filename} {$this->domainDir}");

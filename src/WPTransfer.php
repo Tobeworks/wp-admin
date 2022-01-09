@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WPTransfer extends Command
 {
-    // the name of the command (the part after "bin/console")
     protected static $defaultName = 'transfer';
 
     protected function configure(): void
