@@ -1,6 +1,9 @@
 ### Backup and Update for Wordpress
 ```
-./wp-admin backup [path_to_your_wordpress]
+./wp-admin backup [path_to_wordpress]
 ```
-Saves gzipped files to ./tmp
+```
+./wp-admin update [path_to_wordpress]
+```
+
 
