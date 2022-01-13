@@ -29,7 +29,9 @@ class WPBackupSource extends Command
         for($i=0; $i<count($sources); $i++){
             $output->writeln($sources[$i]);
             $wp = new WPCLI($sources[$i]);
-            //$this->wp->export();
+            dump($sources[$i]);
+            $wp->export();
+            $output->writeln($sources[$i].' done');
         }
         //$this->wp = new WPCLI($input->getArgument('path'));
         
