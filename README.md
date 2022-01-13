@@ -1,5 +1,8 @@
 ## WP-Admin
-Installation:
+
+This programm works only with Linux based OS and PHP
+
+### Installation
 ```
 composer install
 ```
