@@ -24,7 +24,6 @@ class WPBackupSource extends Command
     {
         $datasource = new DataSource();
         $sources = $datasource->getSources();
-        //dump($sources);
     
         for($i=0; $i<count($sources); $i++){
             $output->writeln($sources[$i]);
@@ -33,7 +32,6 @@ class WPBackupSource extends Command
             $wp->export();
             $output->writeln($sources[$i].' done');
         }
-        //$this->wp = new WPCLI($input->getArgument('path'));
         
         $output->writeln('Done!');
         return Command::SUCCESS;
