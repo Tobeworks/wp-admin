@@ -26,6 +26,10 @@ Update paths in
 ```
 ./wp-admin backupsource
 ```
+### Batch update with CSV file
+```
+./wp-admin updatesource
+```
 
 
 
