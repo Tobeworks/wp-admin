@@ -11,12 +11,12 @@ class WPTransfer extends Command
 
     protected function configure(): void
     {
-        // ...
+        $this->setDescription('Transfer uploaded file to FTP storage');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Hello World!');
+        $output->writeln('Transfer');
         return Command::SUCCESS;
 
         // or return this if some error happened during the execution

@@ -1,6 +1,7 @@
 {
     "require": {
-        "symfony/console": "^5.4"
+        "symfony/console": "^5.4",
+        "nicolab/php-ftp-client": "^1.6"
     },
         "autoload": {
             "psr-4": {
