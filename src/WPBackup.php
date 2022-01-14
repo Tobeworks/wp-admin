@@ -20,7 +20,7 @@ class WPBackup extends Command
     {
         $this->addArgument('path', InputArgument::REQUIRED, 'The path is required')
         ->setDescription('Backup a Wordpress Installation and gzip it')
-        ->addOption('transfer','t', InputOption::VALUE_NONE,'Transfer directly to FTP');
+        ->addOption('transfer','t', InputOption::VALUE_NONE,'Transfer directly to FTP Server');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

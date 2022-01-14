@@ -33,6 +33,12 @@ Update paths in
 ```
 ./wp-admin backupsource
 ```
+
+### Batch Backup with CSV file and transfer
+```
+./wp-admin backupsource -t
+```
+
 ### Batch update with CSV file
 ```
 ./wp-admin updatesource
