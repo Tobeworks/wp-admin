@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 use App\WPCLI as WPCLI;
+//use App\Config as Config;
+use App\Transfer as Transfer;
 
 class WPBackup extends Command
 {
@@ -24,15 +26,17 @@ class WPBackup extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        $transfer = $input->getOption('transfer');
+        $transferOption = $input->getOption('transfer');
         
         $this->wp = new WPCLI($input->getArgument('path'));
         $this->wp->export();
         $output->writeln('Export done');
         
-        if($transfer == true){
+        if($transferOption == true){
+            
+            $transfer = new Transfer();
             $output->writeln('Transfer started');
-
+            $transfer->putSingle(trim($this->wp->getDomainDir()));
             $output->writeln('Transfer done');
         }
         return Command::SUCCESS;

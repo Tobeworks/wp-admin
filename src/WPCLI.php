@@ -11,10 +11,11 @@ use App\Config as Config;
 class WPCLI
 {
 
-    protected string $wordpressPath;
-    protected string $fileName;
-    protected string $tgzName;
-    protected string $path;
+    protected string $wordpressPath = '';
+    protected string $fileName = '';
+    protected string $tgzName = '';
+    protected string $path = '';
+    protected string $domainDir = '';
     public $config;
 
     const WP = '/usr/local/bin/wp';
@@ -55,6 +56,7 @@ class WPCLI
     public function getSiteURL()
     {
         $siteUrl = preg_replace('#http://|https://#', '', $this->exec('option get siteurl'));
+        $siteUrl = str_replace("\n", '', $siteUrl);
         return $siteUrl;
     }
 
@@ -90,6 +92,19 @@ class WPCLI
         }
     }
 
+    public function getName(){
+        if($this->tgzName !== ''){
+            return $this->tgzName;
+        }
+        return false;
+    }
+
+    public function getDomainDir(){
+        if ($this->domainDir !== '') {
+            return $this->domainDir;
+        }
+        return false;
+    }
 
     public function CoreUpdate()
     {

@@ -14,10 +14,17 @@ Update paths in
 ```
 
 
-### Single Backup and Update for Wordpress
+### Single Backup for Wordpress
 ```
 ./wp-admin backup [path_to_wordpress]
+
 ```
+### Single Backup and FTP transfer for Wordpress
+```
+./wp-admin backup [path_to_wordpress] -t
+
+```
+### Single Update and FTP transfer for Wordpress
 ```
 ./wp-admin update [path_to_wordpress]
 ```

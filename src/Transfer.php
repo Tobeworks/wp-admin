@@ -38,4 +38,12 @@ class Transfer
         $this->ftp->putAll($this->config['safedir'], '/');
     }
 
+    public function putSingle(string $inputDir)
+    {
+        $dirname = basename($inputDir);
+        $this->ftp->mkdir($dirname, true);
+        $this->ftp->putAll($inputDir, '/'. $dirname);
+    }
+
+
 }
