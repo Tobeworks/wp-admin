@@ -6,7 +6,7 @@ use Symfony\Component\Console\Helper\Dumper;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 use App\Config as Config;
-use App\Options as Options;
+
 
 class WPCLI
 {

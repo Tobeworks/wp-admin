@@ -5,26 +5,30 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+
+use App\Config as Config;
+use App\Transfer as Transfer;
+
+
 class WPTransfer extends Command
 {
+    protected $transfer;
     protected static $defaultName = 'transfer';
+
 
     protected function configure(): void
     {
-        $this->setDescription('Transfer uploaded file to FTP storage');
+        $this->setDescription('Transfer ALL uploaded files to FTP storage');
+        $config = new Config();
+        $this->config = $config->getConfig();
+
+        $this->transfer = new Transfer();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('Transfer');
+        $this->transfer->putAll();
+        $output->writeln('-End-');
         return Command::SUCCESS;
-
-        // or return this if some error happened during the execution
-        // (it's equivalent to returning int(1))
-        // return Command::FAILURE;
-
-        // or return this to indicate incorrect command usage; e.g. invalid options
-        // or missing arguments (it's equivalent to returning int(2))
-        // return Command::INVALID
     }
 }

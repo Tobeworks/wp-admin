@@ -23,4 +23,5 @@ $application->add($backup);
 $application->add($update);
 $application->add($backupsource);
 $application->add($updatesource);
+$application->add($transfer);
 $application->run();
